@@ -1,0 +1,32 @@
+{% capture day %}{{ include.date | date: '%d' }}{% endcapture %}
+{% capture month %}{{ include.date | date: '%-m' }}{% endcapture %}
+{% capture year %}{{ include.date | date: '%Y' }}{% endcapture %}
+
+{{ day }}.
+{% case month %}
+  {% when '1' -%}
+    jan
+  {% when '2' -%}
+    feb
+  {% when '3' -%}
+    mars
+  {% when '4' -%}
+    april
+  {% when '5' -%}
+    mai
+  {% when '6' -%}
+    juni
+  {% when '7' -%}
+    juli
+  {% when '8' -%}
+    aug
+  {% when '9' -%}
+    sep
+  {% when '10' -%}
+    okt
+  {% when '11' -%}
+    nov
+  {% when '12' -%}
+    des
+{% endcase %}
+{{ year }}

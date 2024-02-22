@@ -1,0 +1,44 @@
+<header class="site-header bg-dark" role="banner">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-darker">
+    <div class="container-fluid">
+      {% if page.url == '/' %}
+        {% assign icon_alt = 'Logo' %}
+        {% assign brand_text = '' %}
+      {% else %}
+        {% assign icon_alt = site.data.branding.site_header_title | default: site.title %}
+        {% assign brand_text = site.data.branding.site_header_title | default: site.title %}
+      {% endif %}
+      <a class="navbar-brand" href="{{ "/" | relative_url }}">
+        <img
+          src="{{ site.data.branding.logo | relative_url }}"
+          alt="{{ icon_alt | escape }}"
+          class="img-fluid"
+          style="max-height: 50px;"
+        >
+        {{ brand_text | escape }}
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          {%- for my_page in site.data.nav.pages -%}
+            {%- if my_page.title -%}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

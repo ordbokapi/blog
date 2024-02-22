@@ -1,0 +1,104 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import url('https://adalinesimonian.github.io/fonts/scandia/styles.css');
+@import url('https://fonts.googleapis.com/css2?family=Sarala&family=IBM+Plex+Sans&family=IBM+Plex+Mono&family=Lora&display=swap');
+
+// Theme colours
+
+$theme-colors: (
+  'primary': #27a7b0,
+  'secondary': #8eb6b9,
+  'success': #4caf50,
+  'info': #00bcd4,
+  'warning': #ff9800,
+  'danger': #f44336,
+  'light': #f5f5f5,
+  'dark': #212121,
+);
+
+.bg-darker {
+  background-color: #1b1b1b !important;
+}
+
+.bg-dark-card {
+  background-color: #ccc !important;
+}
+
+.text-deemphasize {
+  opacity: 0.6;
+}
+
+@import 'bootstrap';
+
+$font-family-content: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial,
+  sans-serif;
+$font-family-headers: 'ScandiaWebBold', 'Sarala', sans-serif;
+
+body,
+html {
+  font-family: $font-family-content;
+}
+
+.page-heading,
+.navbar-brand,
+.display-5 {
+  font-family: $font-family-headers;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+$sizes: (
+  25: 25%,
+  33: 33.333333%,
+  50: 50%,
+  66: 66.666667%,
+  75: 75%,
+  100: 100%,
+
+  25vh: 25vh,
+  33vh: 33.333333vh,
+  50vh: 50vh,
+  66vh: 66.666667vh,
+  75vh: 75vh,
+  100vh: 100vh,
+
+  25vw: 25vw,
+  33vw: 33.333333vw,
+  50vw: 50vw,
+  66vw: 66.666667vw,
+  75vw: 75vw,
+  100vw: 100vw,
+
+  auto: auto,
+);
+
+@each $size, $length in $sizes {
+  .mw-#{$size} {
+    max-width: $length !important;
+  }
+  .mh-#{$size} {
+    max-height: $length !important;
+  }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @each $size, $length in $sizes {
+    @include media-breakpoint-up($breakpoint) {
+      .w-#{$breakpoint}-#{$size} {
+        width: $length !important;
+      }
+      .mw-#{$breakpoint}-#{$size} {
+        max-width: $length !important;
+      }
+    }
+  }
+}

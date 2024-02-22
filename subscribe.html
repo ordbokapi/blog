@@ -1,0 +1,60 @@
+---
+permalink: /subscribe/index.html
+layout: default
+---
+<h1 class="text-center">Abonner på bloggoppdateringar</h1>
+
+<p class="text-center">
+  Om du vill abonnera på bloggoppdateringar, skriv inn e-postadressen din her og klikk på "Abonner". Du vil motta en
+  e-postmelding når det er nye bloggoppdateringar.
+</p>
+
+<div class="d-flex justify-content-center flex-column align-items-center">
+  <form
+    id="subscribe-form"
+    action="{{ site.data.api.baseUrl }}/subscribe"
+    method="get"
+    class="input-group mw-75 mw-lg-66"
+  >
+    <input
+      type="email"
+      id="email"
+      name="email"
+      placeholder="E-postadresse"
+      required
+      maxlength="100"
+      class="form-control"
+    >
+    <button type="submit" class="btn btn-outline-primary">Abonner</button>
+  </form>
+  <div class="spinner-border text-primary m-5" role="status" id="subscribe-spinner" style="display: none;">
+    <span class="visually-hidden">Lastar...</span>
+  </div>
+</div>
+
+<div id="subscribe-message" class="text-center mt-3"></div>
+
+<script>
+  document.getElementById('subscribe-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('subscribe-message');
+    const spinner = document.getElementById('subscribe-spinner');
+
+    message.innerHTML = '';
+    spinner.style.display = 'block';
+
+    const response = await fetch(`{{ site.data.api.baseUrl }}/subscribe?email=${email}`);
+
+    spinner.style.display = 'none';
+
+    if (response.status === 200) {
+      message.innerHTML = 'Takk for at du abonnerer! Sjekk e-posten din for ei stadfestingslenkje.';
+    } else if (response.status === 429) {
+      message.innerHTML = 'Du har vore for rask. Vennlegst prøv igjen om ei stund.';
+    } else {
+      message.innerHTML = 'Noko gjekk gale. Vennlegst prøv igjen.';
+    }
+  });
+</script>

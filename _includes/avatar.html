@@ -1,0 +1,36 @@
+<style>
+  .author-avatar,
+  .author-avatar-placeholder {
+    width: {{ include.size | default: "32px" }};
+    height: {{ include.size | default: "32px" }};
+  }
+
+  .author-avatar {
+    object-fit: cover;
+  }
+
+  .author-avatar-placeholder {
+    line-height: {{ include.size | default: "32px" }};
+    text-align: center;
+    color: white;
+    background-color: #6c757d;
+    border-radius: 50%;
+    display: inline-block;
+  }
+</style>
+
+{% assign pictureUrl = site.data.authors[include.author].picture %}
+{% if pictureUrl %}
+  <img
+    src="{{ pictureUrl }}"
+    class="rounded-circle img-fluid author-avatar"
+    alt="{{ include.author }}'s avatar"
+  >
+{% else %}
+  <div
+    class="rounded-circle bg-secondary d-inline-block author-avatar-placeholder"
+  >
+    {% assign initials = include.author | split: ' ' | map: 'first' | join: '' %}
+    {{ initials }}
+  </div>
+{% endif %}

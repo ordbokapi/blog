@@ -1,0 +1,68 @@
+<footer class="bg-darker text-white text-center text-lg-start">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-md-6 col-lg-4 text-lg-left mb-4 mb-md-0">
+        <h2 class="footer-heading">{{ site.title | escape }}</h2>
+        <p>{{- site.description | escape -}}</p>
+      </div>
+
+      <div class="col-md-6 col-lg-8 text-lg-right">
+        <div class="row">
+          <div class="col-md-12 col-lg-6 mx-auto mb-4">
+            <h5 class="text-uppercase mb-4 font-weight-bold">Lenkjer</h5>
+            <ul class="list-unstyled">
+              {% for link in site.data.footer.links %}
+                <li>
+                  <a class="text-reset d-block" href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="col-md-12 col-lg-6 mx-auto mb-4">
+            <h5 class="text-uppercase mb-4 font-weight-bold">Kontakt</h5>
+            <ul class="list-unstyled">
+              {% assign displayName = '' %}
+              {% if site.data.contact.name %}
+                {% assign displayName = site.data.contact.name | escape %}
+              {% else %}
+                {% assign displayName = site.title | escape %}
+              {% endif %}
+              {%- if site.data.contact.link -%}
+                <li>
+                  <a class="u-url text-reset" href="{{ site.data.contact.link }}">{{ displayName }}</a>
+                </li>
+              {%- else -%}
+                <li class="p-name">
+                  {{ displayName }}
+                </li>
+              {%- endif -%}
+              {%- if site.email -%}
+                <li>
+                  <a class="u-email text-reset" href="mailto:{{ site.email }}">{{ site.email }}</a>
+                </li>
+              {%- endif -%}
+            </ul>
+            &copy; {{ site.time | date: '%Y' }}
+            {{ site.data.copyright.name }}. Alle rettar reservert.
+            {%- if site.data.copyright.licence %}
+              <br>
+              Innhaldet er lisensiert under&nbsp;
+              {%- if site.data.copyright.licence.url -%}
+                <a class="text-reset" href="{{ site.data.copyright.licence.url }}">
+                  {{- site.data.copyright.licence.name -}}</a
+                >-lisensen.
+              {%- else -%}
+                {{ site.data.copyright.licence.name }}-lisensen.
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    <a id="back-to-top" class="text-reset" href="#top">Tilbake til toppen</a>
+  </div>
+</footer>

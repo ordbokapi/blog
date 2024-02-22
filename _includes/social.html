@@ -1,0 +1,54 @@
+<div class="social-media-list">
+  <div class="row">
+    {%- if site.dribbble_username -%}
+      <div class="col">
+        <a href="https://dribbble.com/{{ site.dribbble_username| cgi_escape | escape }}" class="text-decoration-none">
+          <svg class="svg-icon" style="width:24px;height:24px">
+            <use xlink:href="{{ '/assets/minima-social-icons.svg#dribbble' | relative_url }}"></use>
+          </svg>
+          <span class="username ms-2">{{ site.dribbble_username | escape }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+
+    {%- for platform in ['facebook', 'flickr', 'github', 'instagram', 'linkedin', 'pinterest', 'twitter', 'youtube', 'googleplus'] -%}
+      {%- if site[platform+'_username'] -%}
+        <div class="col">
+          <a
+            href="https://{{ platform }}.com/{{ site[platform+'_username']| cgi_escape | escape }}"
+            class="text-decoration-none"
+          >
+            <svg class="svg-icon" style="width:24px;height:24px">
+              <use xlink:href="{{ '/assets/minima-social-icons.svg#' + platform | relative_url }}"></use>
+            </svg>
+            <span class="username ms-2">{{ site[platform+'_username'] | escape }}</span>
+          </a>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- for mst in site.mastodon -%}
+      {%- if mst.username and mst.instance -%}
+        <div class="col">
+          <a href="https://{{ mst.instance| cgi_escape | escape}}/@{{mst.username}}" class="text-decoration-none">
+            <svg class="svg-icon" style="width:24px;height:24px">
+              <use xlink:href="{{ '/assets/minima-social-icons.svg#mastodon' | relative_url }}"></use>
+            </svg>
+            <span class="username ms-2">{{ mst.username | escape }}</span>
+          </a>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if site.rss -%}
+      <div class="col">
+        <a href="{{ 'feed.xml' | relative_url }}" class="text-decoration-none">
+          <svg class="svg-icon" style="width:24px;height:24px">
+            <use xlink:href="{{ '/assets/minima-social-icons.svg#rss' | relative_url }}"></use>
+          </svg>
+          <span class="ms-2">{{ site.rss | escape }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

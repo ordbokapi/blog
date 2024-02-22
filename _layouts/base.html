@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="{{ page.lang | default: site.lang | default: "nn" }}">
+  {%- include head.html -%}
+
+  <body class="bg-darker text-light">
+    <a id="top"></a>
+    <a id="skip-to-content" href="#content" class="visually-hidden-focusable">Hopp til hovudinnhald</a>
+    {%- include header.html -%}
+
+    {{ content }}
+
+    {%- include footer.html -%}
+  </body>
+</html>

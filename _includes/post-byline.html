@@ -1,0 +1,27 @@
+<span
+  class="d-inline-flex justify-center items-center ps-1 pe-2 py-1 mx-1"
+>
+  <span class="me-2">
+    {%- include avatar.html author=include.author size="3.2em" -%}
+  </span>
+  <span class="d-flex flex-column align-items-start justify-content-center">
+    <span itemprop="author" itemscope itemtype="http://schema.org/Person" class="d-flex align-items-center"
+      ><span class="p-author h-card" itemprop="name">
+        {{- site.data.authors[include.author].name | default: include.author -}}
+      </span></span
+    >
+    <span class="text-deemphasize small">
+      <time class="dt-published" datetime="{{ include.date | date_to_xmlschema }}" itemprop="datePublished">
+        {{ include.date | format_date }}
+      </time>
+      {%- if include.updated -%}
+        <em>
+          (oppdatert
+          <time class="dt-updated" datetime="{{ include.updated | date_to_xmlschema }}" itemprop="dateModified">
+            {{ include.date | format_date -}}</time
+          >)</em
+        >
+      {%- endif -%}
+    </span>
+  </span>
+</span>
