@@ -127,10 +127,118 @@ end
 
 desc 'Start the Jekyll server'
 task :serve do
-  sh 'bundle exec jekyll serve'
+  sh 'bundle exec jekyll serve --drafts --livereload'
 end
 
 desc 'Build the site'
 task :build do
   sh 'bundle exec jekyll build'
+end
+
+desc 'Create a new post'
+task :new_post, [:title] do |t, args|
+  title = args[:title]
+
+  if title.nil?
+    puts 'Usage: rake new_post[title]'
+    exit 1
+  end
+
+  now = DateTime.now
+  date = now.strftime('%Y-%m-%d')
+  filename = "_posts/#{date}-#{title.downcase.strip.gsub(' ', '-')}.md"
+  if File.exist?(filename)
+    puts 'File already exists'
+    exit 1
+  end
+
+  File.open(filename, 'w') do |file|
+    file.write("---\n")
+    file.write("layout: post\n")
+    file.write("title: \"#{title}\"\n")
+    file.write("date: #{now.strftime('%Y-%m-%d %H:%M:%S %z')}\n")
+    file.write("author: \n")
+    file.write("categories: \n")
+    file.write("summary: \"\"\n")
+    file.write("---\n")
+  end
+
+  puts "Created new post: #{filename}"
+end
+
+desc 'Create a new draft'
+task :new_draft, [:title] do |t, args|
+  title = args[:title]
+
+  if title.nil?
+    puts 'Usage: rake new_draft[title]'
+    exit 1
+  end
+
+  filename = "_drafts/#{title.downcase.strip.gsub(' ', '-')}.md"
+  if File.exist?(filename)
+    puts 'File already exists'
+    exit 1
+  end
+
+  FileUtils.mkdir_p('_drafts')
+  File.open(filename, 'w') do |file|
+    file.write("---\n")
+    file.write("layout: post\n")
+    file.write("title: \"#{title}\"\n")
+    file.write("date: #{DateTime.now.strftime('%Y-%m-%d %H:%M:%S %z')}\n")
+    file.write("author: \n")
+    file.write("categories: \n")
+    file.write("summary: \"\"\n")
+    file.write("---\n")
+  end
+
+  puts "Created new draft: #{filename}"
+end
+
+desc 'Publish a draft'
+task :publish_draft, [:title] do |t, args|
+  title = args[:title]
+
+  if title.nil?
+    puts 'Usage: rake publish_draft[title]'
+    exit 1
+  end
+
+  draft_filename = "_drafts/#{title.downcase.strip.gsub(' ', '-')}.md"
+  if !File.exist?(draft_filename)
+    puts "Draft not found: #{draft_filename}"
+    exit 1
+  end
+
+  now = DateTime.now
+  date = now.strftime('%Y-%m-%d')
+  filename = "_posts/#{date}-#{title.downcase.strip.gsub(' ', '-')}.md"
+  if File.exist?(filename)
+    puts "Post already exists: #{filename}"
+    exit 1
+  end
+
+  FileUtils.mv(draft_filename, filename)
+
+  content = File.read(filename)
+  content = content.sub(/date: .*/, "date: #{now.strftime('%Y-%m-%d %H:%M:%S %z')}")
+  File.open(filename, 'w') { |file| file.puts content }
+
+  puts "Published draft: #{filename}"
+end
+
+desc 'Publish all drafts'
+task :publish_all_drafts do
+  drafts = Dir.glob('_drafts/*.md')
+
+  drafts.each do |draft|
+    title = File.basename(draft, '.md')
+    Rake::Task['publish_draft'].invoke(title)
+  end
+end
+
+desc 'Get a timestamp suitable for post front matter'
+task :timestamp do
+  puts DateTime.now.strftime('%Y-%m-%d %H:%M:%S %z')
 end

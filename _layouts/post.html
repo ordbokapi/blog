@@ -7,12 +7,15 @@ layout: default
     <p class="post-meta">
       {%- include post-byline.html author=page.author date=page.date updated=page.updated -%}
     </p>
+
+    {%- if page.summary -%}
+      <p class="post-summary" itemprop="description">{{ page.summary | escape }}</p>
+    {%- endif -%}
   </header>
 
-  <div class="pb-3 pt-1 px-0 px-sm-5 px-lg-0">
+  <div class="container position-relative popout-md px-0 py-1 py-md-3 py-lg-3 py-xl-5 text-center">
     <img
-      class="u-featured mw-100 mw-lg-50"
-      style="max-height: 25em"
+      class="u-featured img-fluid"
       src="{{ page.image | default: '/assets/img/card-image-placeholder.png' | relative_url }}"
       alt=""
     >

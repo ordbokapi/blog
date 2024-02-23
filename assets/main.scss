@@ -56,6 +56,11 @@ h6 {
   font-weight: 700;
 }
 
+.popout {
+  width: 120%;
+  margin-left: -10%;
+}
+
 $sizes: (
   25: 25%,
   33: 33.333333%,
@@ -91,6 +96,12 @@ $sizes: (
 }
 
 @each $breakpoint in map-keys($grid-breakpoints) {
+  .popout-#{$breakpoint} {
+    @include media-breakpoint-up($breakpoint) {
+      width: 120%;
+      margin-left: -10%;
+    }
+  }
   @each $size, $length in $sizes {
     @include media-breakpoint-up($breakpoint) {
       .w-#{$breakpoint}-#{$size} {
