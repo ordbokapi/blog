@@ -7,3 +7,5 @@ _sass/bootstrap
 assets/js/bootstrap
 assets/js/lunr.js
 search_index.json
+new_post.json
+secrets.yml

@@ -41,6 +41,11 @@ plugins:
 #
 exclude:
   - search_index.json
+  - new_post.json
+  - secrets.yml
+  - renovate.json
+  - README.md
+  - Rakefile
 # exclude:
 #   - .sass-cache/
 #   - .jekyll-cache/
