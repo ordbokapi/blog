@@ -61,6 +61,69 @@ h6 {
   margin-left: -10%;
 }
 
+.bg-dark main a:not(.btn),
+.bg-darker main a:not(.btn),
+main .bg-dark a:not(.btn),
+main .bg-darker a:not(.btn),
+main.bg-dark a:not(.btn),
+main.bg-darker a:not(.btn) {
+  color: #27a7b0;
+  &:hover {
+    color: #238f97;
+  }
+}
+
+.bg-white main a:not(.btn),
+main .bg-white a:not(.btn),
+main.bg-white a:not(.btn),
+main .bg-dark-card a:not(.btn) {
+  color: #238f97;
+  &:hover {
+    color: #27a7b0;
+  }
+}
+
+.post-content,
+.post-summary {
+  font-size: 1.05em;
+}
+
+.post-content ol,
+.post-content ul {
+  padding-left: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.post-content ol {
+  list-style-type: decimal;
+}
+
+.post-content ul {
+  list-style-type: disc;
+}
+
+.post-content ol ol,
+.post-content ul ul,
+.post-content ol ul,
+.post-content ul ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.post-content li:not(:last-child) {
+  margin-bottom: 0.5em;
+}
+
+.post-content blockquote {
+  border-left: 5px solid #27a7b0;
+  padding-left: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  color: #aaa;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
 $sizes: (
   25: 25%,
   33: 33.333333%,
