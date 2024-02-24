@@ -14,8 +14,9 @@ module Jekyll
       end
 
       # Check for new files in the last commit in the _posts directory
-      changed_files = `git diff-tree --no-commit-id --name-status -r HEAD`.lines
-      new_posts = changed_files.select { |line| line.start_with?('A') && line.include?('_posts/') }
+      changed_files = `git diff-tree --no-commit-id --name-status -r HEAD`
+      puts changed_files
+      new_posts = changed_files.lines.select { |line| line.start_with?('A') && line.include?('_posts/') }
 
       if new_posts.empty?
         puts 'No new post was created'
@@ -55,6 +56,8 @@ module Jekyll
       File.open(write_path, 'w') do |file|
         file.write(JSON.pretty_generate(new_post))
       end
+
+      puts 'New post JSON written to ' + write_path
     end
   end
 end

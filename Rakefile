@@ -6,6 +6,7 @@ require 'json'
 require 'yaml'
 require 'net/http'
 require 'optparse'
+require 'tzinfo'
 
 def slugify(title)
   slug = title.downcase
@@ -14,6 +15,9 @@ def slugify(title)
     .gsub(/^-|-$/, '')
   slug
 end
+
+configuredTimezone = YAML.load_file('_config.yml')['timezone']
+timezone = TZInfo::Timezone.get(configuredTimezone)
 
 task :default => [:install, :serve, :build]
 
@@ -87,7 +91,7 @@ task :notify_new_post do
 
   # safety check so we don't send accidentally notify about old posts
   # if the latest post is not from within the last 24 hours, don't notify
-  if DateTime.parse(new_post['date']).to_time < Time.now - 24 * 60 * 60
+  if DateTime.parse(new_post['date']).to_time.utc < Time.now.utc - 24 * 60 * 60
     puts 'Latest post is older than 24 hours, not notifying'
     exit 0
   end
@@ -144,37 +148,6 @@ task :build do
   sh 'bundle exec jekyll build'
 end
 
-desc 'Create a new post'
-task :new_post, [:title] do |t, args|
-  title = args[:title]
-
-  if title.nil?
-    puts 'Usage: rake new_post[title]'
-    exit 1
-  end
-
-  now = DateTime.now
-  date = now.strftime('%Y-%m-%d')
-  filename = "_posts/#{date}-#{title.downcase.strip.gsub(' ', '-')}.md"
-  if File.exist?(filename)
-    puts 'File already exists'
-    exit 1
-  end
-
-  File.open(filename, 'w') do |file|
-    file.write("---\n")
-    file.write("layout: post\n")
-    file.write("title: \"#{title}\"\n")
-    file.write("date: #{now.strftime('%Y-%m-%d %H:%M:%S %z')}\n")
-    file.write("author: \n")
-    file.write("categories: \n")
-    file.write("summary: \"\"\n")
-    file.write("---\n")
-  end
-
-  puts "Created new post: #{filename}"
-end
-
 namespace :draft do |args|
   desc 'Create a new draft'
   task :new do
@@ -208,6 +181,7 @@ namespace :draft do |args|
       file.write("title: \"#{title}\"\n")
       file.write("date: #{DateTime.now.strftime('%Y-%m-%d %H:%M:%S %z')}\n")
       file.write("author: \n")
+      file.write("image: \n")
       file.write("categories: \n")
       file.write("summary: \"\"\n")
       file.write("---\n")
@@ -246,7 +220,11 @@ namespace :draft do |args|
       end
 
       now = DateTime.now
-      date = now.strftime('%Y-%m-%d')
+
+      utcDate = now.new_offset(0)
+      localDate = timezone.utc_to_local(utcDate)
+      date = localDate.strftime('%Y-%m-%d')
+
       filename = "_posts/#{date}-#{slug}.md"
       if File.exist?(filename)
         puts "Post already exists: #{filename}"
