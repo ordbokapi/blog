@@ -46,6 +46,6 @@ jobs:
           JEKYLL_ENV: production
 
       - name: Notify subscribers
-        run: rake notify_new_post
+        run: bundle exec rake notify_new_post
         env:
           API_KEY: ${{ secrets.API_KEY }}
