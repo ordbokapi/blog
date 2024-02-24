@@ -28,6 +28,9 @@ jobs:
           bundler-cache: true
           cache-version: 1 # Increase this version to clear the cache
 
+      - name: Debug Installed Dependencies
+        run: bundle exec gem list
+
       - name: Post-install script
         run: rake postinstall
 
