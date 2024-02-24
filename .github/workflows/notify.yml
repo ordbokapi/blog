@@ -34,7 +34,7 @@ jobs:
           cache-version: 1 # Increase this version to clear the cache
 
       - name: Post-install script
-        run: rake postinstall
+        run: bundle exec rake postinstall
 
       - name: Setup Pages
         id: pages
