@@ -8,8 +8,18 @@
     <span itemprop="author" itemscope itemtype="http://schema.org/Person" class="d-flex align-items-center"
       ><span class="p-author h-card" itemprop="name">
         {{- site.data.authors[include.author].name | default: include.author -}}
-      </span></span
-    >
+      </span>
+      {%- if site.data.authors[include.author].pronouns -%}
+        <span class="text-deemphasize small">
+          <span itemprop="pronouns"
+            >&nbsp; (
+            {{- site.data.authors[include.author].pronouns -}}
+            )</span
+          >
+        </span>
+      {%- endif -%}
+    </span>
+
     <span class="text-deemphasize small">
       <time class="dt-published" datetime="{{ include.date | date_to_xmlschema }}" itemprop="datePublished">
         {{ include.date | format_date }}

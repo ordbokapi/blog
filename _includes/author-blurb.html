@@ -9,11 +9,21 @@
       itemprop="author"
       itemscope
       itemtype="http://schema.org/Person"
-      class="d-flex align-items-center mb-1 fw-bolder"
-      ><span class="p-author h-card" itemprop="name">
+      class="d-flex align-items-center mb-1"
+      ><span class="p-author h-card fw-bolder" itemprop="name">
         {{- site.data.authors[include.author].name | default: include.author -}}
-      </span></span
-    >
+      </span>
+      {%- if site.data.authors[include.author].pronouns -%}
+        <span class="text-deemphasize small">
+          <span itemprop="pronouns"
+            >&nbsp; (
+            {{- site.data.authors[include.author].pronouns -}}
+            )</span
+          >
+        </span>
+      {%- endif -%}
+    </span>
+
     <span class="text-deemphasize small mb-1">
       {%- if site.data.authors[include.author].bio -%}
         <span itemprop="description">{{- site.data.authors[include.author].bio -}}</span>
