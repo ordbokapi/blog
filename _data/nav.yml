@@ -1,6 +1,8 @@
 pages:
   - title: Heim
     url: /
+  - title: Ordbok API
+    url: https://ordbokapi.org/
   - title: Om
     url: /om/
   - title: Arkiv
