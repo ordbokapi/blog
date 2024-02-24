@@ -3,5 +3,7 @@ pages:
     url: /
   - title: Om
     url: /om/
+  - title: Arkiv
+    url: /arkiv/
   - title: Abonner
     url: /subscribe/

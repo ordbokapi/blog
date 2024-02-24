@@ -50,8 +50,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const results = index.search(term);
         let resultsHTML = `<p class="mb-1">Treff for '${term}'</p><div class="list-group">`;
 
-        console.log('results', results);
-
         if (results.length > 0) {
           results.forEach(({ ref }) => {
             const { url, title, body } = lunrDocuments[ref];

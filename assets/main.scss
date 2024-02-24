@@ -124,6 +124,10 @@ main .bg-dark-card a:not(.btn) {
   margin-bottom: 2em;
 }
 
+.mw-md-md {
+  max-width: 720px !important;
+}
+
 $sizes: (
   25: 25%,
   33: 33.333333%,
@@ -159,10 +163,16 @@ $sizes: (
 }
 
 @each $breakpoint in map-keys($grid-breakpoints) {
-  .popout-#{$breakpoint} {
+  .popout-#{$breakpoint}-large {
     @include media-breakpoint-up($breakpoint) {
-      width: 120%;
-      margin-left: -10%;
+      width: 140%;
+      margin-left: -20%;
+    }
+  }
+  .popout-#{$breakpoint}-medium {
+    @include media-breakpoint-up($breakpoint) {
+      width: 125%;
+      margin-left: -12.5%;
     }
   }
   @each $size, $length in $sizes {

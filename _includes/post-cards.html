@@ -1,0 +1,46 @@
+<div class="row row-cols-1 g-4">
+  {%- for post in include.posts -%}
+    <div class="col mb-4">
+      <div class="card bg-dark-card h-100">
+        <div class="row g-0">
+          <div class="d-none d-md-flex col-md-7 col-lg-6 col-xl-5">
+            <a href="{{ post.url | relative_url }}">
+              <img
+                src="{{ post.image | post_asset_path: post | fallback_path: '/assets/img/card-image-placeholder.png' | relative_url }}"
+                class="rounded-start object-fit-cover w-100 h-100"
+                alt="{{ post.image_alt | default: 'Bilete for innlegget' }}"
+              >
+            </a>
+          </div>
+          <div class="col-md-5 col-lg-6 col-xl-7">
+            <div class="card-body d-flex flex-column align-items-left justify-content-between h-100">
+              <h5 class="card-title">
+                <a class="post-link" href="{{ post.url | relative_url }}">
+                  {{ post.title | escape }}
+                </a>
+              </h5>
+              <div>
+                {%- include post-byline.html author=post.author date=post.date updated=post.updated -%}
+              </div>
+              <p
+                class="card-text auto-truncate"
+                style="max-height: 2.5em;"
+                data-min-words="10"
+                data-min-at-width="300"
+                data-max-words="30"
+                data-max-at-width="500"
+              >
+                {{ post.summary | default: post.excerpt | strip_html | truncatewords: 30 }}
+              </p>
+              <div
+                class="controls d-flex flex-row justify-content-end"
+              >
+                <a href="{{ post.url | relative_url }}" class="btn btn-primary flex-0">Les meir</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endfor -%}
+</div>

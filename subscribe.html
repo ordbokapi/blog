@@ -4,9 +4,9 @@ layout: default
 ---
 <h1 class="text-center">Abonner på bloggoppdateringar</h1>
 
-<p class="text-center">
-  Om du vill abonnera på bloggoppdateringar, skriv inn e-postadressen din her og klikk på "Abonner". Du vil motta en
-  e-postmelding når det er nye bloggoppdateringar.
+<p class="text-center lead my-5">
+  Om du vill abonnera på bloggoppdateringar, skriv inn e-postadressen din her og klikk på "Abonner". Du vil motta ei
+  e-postmelding når nytt innlegg blir publisert.
 </p>
 
 <div class="d-flex justify-content-center flex-column align-items-center">
@@ -32,7 +32,29 @@ layout: default
   </div>
 </div>
 
-<div id="subscribe-message" class="text-center mt-3"></div>
+<div id="subscribe-message" class="text-center my-5"></div>
+
+<div class="text-center mt-5 mb-3">
+  <div class="border-bottom border-2 border-secondary w-25 d-inline-block"></div>
+  <img
+    src="{{ '/assets/img/privacy-icon.png' | relative_url }}"
+    alt="Personvern-ikon"
+    class="img-fluid mx-5"
+    style="max-width: 4em;"
+  >
+  <div class="border-bottom border-2 border-secondary w-25 d-inline-block"></div>
+</div>
+
+<p class="text-center">
+  Me tek personvernet ditt på alvor. Me sporar ingenting om deg, og ingen informasjon om deg blir delt med andre. Me
+  bruker berre e-postadressa di til å senda deg oppdateringsmeldingar — og det er alt.
+</p>
+
+<p class="text-center">
+  Du kan når som helst avslutta abonnementet ved å klikka på avmeldingslenkja i e-postane du får. E-postadressene blir
+  lagra i ein kryptert database, og me slettar dei med ein gong når du avsluttar abonnementet. Alle loggar blir
+  automatisk sletta etter 30 dagar.
+</p>
 
 <script>
   document.getElementById('subscribe-form').addEventListener('submit', async function (event) {
