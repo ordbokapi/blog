@@ -1,0 +1,39 @@
+<span
+  class="d-inline-flex justify-center align-items-center ps-1 pe-2 py-1 mx-1 my-3"
+>
+  <span class="me-2">
+    {%- include avatar.html author=include.author size="4em" -%}
+  </span>
+  <span class="d-flex flex-column align-items-start justify-content-center">
+    <span
+      itemprop="author"
+      itemscope
+      itemtype="http://schema.org/Person"
+      class="d-flex align-items-center mb-1 fw-bolder"
+      ><span class="p-author h-card" itemprop="name">
+        {{- site.data.authors[include.author].name | default: include.author -}}
+      </span></span
+    >
+    <span class="text-deemphasize small mb-1">
+      {%- if site.data.authors[include.author].bio -%}
+        <span itemprop="description">{{- site.data.authors[include.author].bio -}}</span>
+      {%- endif -%}
+    </span>
+
+    {%- if site.data.authors[include.author].social -%}
+      <span class="d-flex flex-row align-items-center justify-content-start">
+        {%- for social in site.data.authors[include.author].social -%}
+          <a
+            href="{{- social.url -}}"
+            class="small me-2"
+            itemprop="sameAs"
+            target="_blank"
+            rel="noopener"
+          >
+            {{- social.title -}}
+          </a>
+        {%- endfor -%}
+      </span>
+    {%- endif -%}
+  </span>
+</span>

@@ -57,7 +57,7 @@ layout: base
                 <div class="row g-0">
                   <div class="col m-auto p-3">
                     <img
-                      src="{{ post.image | default: '/assets/img/card-image-placeholder.png' }}"
+                      src="{{ post.image | post_asset_path: post | fallback_path: '/assets/img/card-image-placeholder.png' | relative_url }}"
                       class="img-fluid"
                       alt="Biletet til innlegget"
                     >

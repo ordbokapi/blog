@@ -5,6 +5,15 @@ require 'open-uri'
 require 'json'
 require 'yaml'
 require 'net/http'
+require 'optparse'
+
+def slugify(title)
+  slug = title.downcase
+    .gsub(/\s+|_/, '-')
+    .gsub(/[^a-z0-9\-]/, '')
+    .gsub(/^-|-$/, '')
+  slug
+end
 
 task :default => [:install, :serve, :build]
 
@@ -166,75 +175,118 @@ task :new_post, [:title] do |t, args|
   puts "Created new post: #{filename}"
 end
 
-desc 'Create a new draft'
-task :new_draft, [:title] do |t, args|
-  title = args[:title]
+namespace :draft do |args|
+  desc 'Create a new draft'
+  task :new do
+    title = nil
 
-  if title.nil?
-    puts 'Usage: rake new_draft[title]'
-    exit 1
+    OptionParser.new do |opts|
+      opts.banner = "Usage: rake draft:new -- -t 'Draft title'"
+      opts.on("-t", "--title TITLE", "Title of the draft") do |t|
+        title = t
+      end
+
+      args = opts.order!(ARGV) {}
+      opts.parse!(args)
+    end
+
+    if title.nil?
+      puts 'No title specified'
+      exit 1
+    end
+
+    filename = "_drafts/#{slugify(title)}.md"
+    if File.exist?(filename)
+      puts 'File already exists'
+      exit 1
+    end
+
+    FileUtils.mkdir_p('_drafts')
+    File.open(filename, 'w') do |file|
+      file.write("---\n")
+      file.write("layout: post\n")
+      file.write("title: \"#{title}\"\n")
+      file.write("date: #{DateTime.now.strftime('%Y-%m-%d %H:%M:%S %z')}\n")
+      file.write("author: \n")
+      file.write("categories: \n")
+      file.write("summary: \"\"\n")
+      file.write("---\n")
+    end
+
+    FileUtils.mkdir_p("assets/attachments/drafts/#{slugify(title)}")
+
+    puts "Created new draft: #{filename}"
+    exit 0
   end
 
-  filename = "_drafts/#{title.downcase.strip.gsub(' ', '-')}.md"
-  if File.exist?(filename)
-    puts 'File already exists'
-    exit 1
-  end
+  desc 'Publish a draft or all drafts'
+  task :publish do
+    options = {}
+    OptionParser.new do |opts|
+      opts.banner = "Usage: rake draft:publish -- [options]"
 
-  FileUtils.mkdir_p('_drafts')
-  File.open(filename, 'w') do |file|
-    file.write("---\n")
-    file.write("layout: post\n")
-    file.write("title: \"#{title}\"\n")
-    file.write("date: #{DateTime.now.strftime('%Y-%m-%d %H:%M:%S %z')}\n")
-    file.write("author: \n")
-    file.write("categories: \n")
-    file.write("summary: \"\"\n")
-    file.write("---\n")
-  end
+      opts.on("-t", "--title TITLE", "Title of the draft to publish") do |t|
+        options[:title] = t
+      end
 
-  puts "Created new draft: #{filename}"
-end
+      opts.on("-a", "--all", "Publish all drafts") do |a|
+        options[:all] = a
+      end
 
-desc 'Publish a draft'
-task :publish_draft, [:title] do |t, args|
-  title = args[:title]
+      args = opts.order!(ARGV) {}
+      opts.parse!(args)
+    end
 
-  if title.nil?
-    puts 'Usage: rake publish_draft[title]'
-    exit 1
-  end
+    publish_draft = lambda do |title|
+      slug = title.downcase.strip.gsub(' ', '-')
+      draft_filename = "_drafts/#{slug}.md"
+      if !File.exist?(draft_filename)
+        puts "Draft not found: #{draft_filename}"
+        return
+      end
 
-  draft_filename = "_drafts/#{title.downcase.strip.gsub(' ', '-')}.md"
-  if !File.exist?(draft_filename)
-    puts "Draft not found: #{draft_filename}"
-    exit 1
-  end
+      now = DateTime.now
+      date = now.strftime('%Y-%m-%d')
+      filename = "_posts/#{date}-#{slug}.md"
+      if File.exist?(filename)
+        puts "Post already exists: #{filename}"
+        return
+      end
 
-  now = DateTime.now
-  date = now.strftime('%Y-%m-%d')
-  filename = "_posts/#{date}-#{title.downcase.strip.gsub(' ', '-')}.md"
-  if File.exist?(filename)
-    puts "Post already exists: #{filename}"
-    exit 1
-  end
+      FileUtils.mv(draft_filename, filename)
+      content = File.read(filename)
+      content = content.sub(/date: .*/, "date: #{now.strftime('%Y-%m-%d %H:%M:%S %z')}")
+      File.open(filename, 'w') { |file| file.puts content }
 
-  FileUtils.mv(draft_filename, filename)
+      draft_attachments_dir = "assets/attachments/drafts/#{slug}"
+      post_attachments_dir = "assets/attachments/#{now.strftime('%Y/%m/%d')}/#{slug}"
+      if Dir.exist?(draft_attachments_dir)
+        # only move the files if the post has attachments
+        if Dir.glob("#{draft_attachments_dir}/*").length > 0
+          FileUtils.mkdir_p(post_attachments_dir)
+          FileUtils.mv(Dir.glob("#{draft_attachments_dir}/*"), post_attachments_dir)
+        end
 
-  content = File.read(filename)
-  content = content.sub(/date: .*/, "date: #{now.strftime('%Y-%m-%d %H:%M:%S %z')}")
-  File.open(filename, 'w') { |file| file.puts content }
+        FileUtils.remove_dir(draft_attachments_dir)
+      end
 
-  puts "Published draft: #{filename}"
-end
+      puts "Published draft: #{filename}"
+    end
 
-desc 'Publish all drafts'
-task :publish_all_drafts do
-  drafts = Dir.glob('_drafts/*.md')
+    if options[:all]
+      drafts = Dir.glob('_drafts/*.md')
+      drafts.each do |draft|
+        title = File.basename(draft, '.md')
+        publish_draft.call(title)
+      end
+    elsif options[:title]
+      publish_draft.call(options[:title])
+    else
+      puts 'Error: No title specified and --all not set. Use --title to specify a draft or --all to publish all drafts.'
+      exit 1
+    end
 
-  drafts.each do |draft|
-    title = File.basename(draft, '.md')
-    Rake::Task['publish_draft'].invoke(title)
+    exit 0
   end
 end
 

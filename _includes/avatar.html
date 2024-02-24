@@ -1,36 +1,31 @@
-<style>
-  .author-avatar,
-  .author-avatar-placeholder {
-    width: {{ include.size | default: "32px" }};
-    height: {{ include.size | default: "32px" }};
-  }
-
-  .author-avatar {
-    object-fit: cover;
-  }
-
-  .author-avatar-placeholder {
-    line-height: {{ include.size | default: "32px" }};
-    text-align: center;
-    color: white;
-    background-color: #6c757d;
-    border-radius: 50%;
-    display: inline-block;
-  }
-</style>
-
+{% assign size = include.size | default: '32px' %}
 {% assign pictureUrl = site.data.authors[include.author].picture %}
 {% if pictureUrl %}
   <img
     src="{{ pictureUrl }}"
-    class="rounded-circle img-fluid author-avatar"
+    class="rounded-circle object-fit-cover author-avatar"
+    style="width: {{ size }}; height: {{ size }}"
     alt="{{ include.author }}'s avatar"
   >
 {% else %}
-  <div
-    class="rounded-circle bg-secondary d-inline-block author-avatar-placeholder"
+  <span
+    class="rounded-circle bg-secondary d-inline-flex justify-content-center align-items-center author-avatar"
+    style="width: 1em; height: 1em; font-size: {{ size }}"
   >
-    {% assign initials = include.author | split: ' ' | map: 'first' | join: '' %}
-    {{ initials }}
-  </div>
+    {% assign name = site.data.authors[include.author].name | default: include.author %}
+    {% assign initials = name | initials %}
+    {% comment %}
+      determine text size based on how many characters long the initials are
+      the longer the initials, the smaller the font size
+      2-character initials will have a font size of 0.5em
+
+      y=-\frac{1}{8}x+0.75
+
+      where x is the number of characters in the initials
+    {% endcomment %}
+    {% assign fontSize = -0.125 | times: initials.size | plus: 0.75 %}
+    <span class="text-center" style="font-size: {{ fontSize }}em">
+      {{ initials }}
+    </span>
+  </span>
 {% endif %}

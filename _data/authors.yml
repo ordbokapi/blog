@@ -1,6 +1,9 @@
 asimonian:
   name: Adaline Simonian
+  bio: Adaline er grunnleggjaren av Ordbok API-prosjektet. Hen er ein full-stack utviklar og har ein lidenskap for språk og teknologi.
   picture: '/assets/img/avatars/asimonian.jpg'
   social:
     - title: GitHub
       url: https://github.com/adalinesimonian
+    - title: Bluesky
+      url: https://bsky.app/profile/adaline.bsky.social

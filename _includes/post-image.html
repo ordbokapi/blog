@@ -2,29 +2,17 @@
 {% assign caption = include.caption %}
 {% assign alt = include.alt %}
 
-{% if image_path contains 'http' %}
+{% assign starts_with_http = image_path | starts_with: 'http' %}
+{% if starts_with_http %}
   {% assign image_path = image_path %}
 {% else %}
-  {% comment %}
-    Images are stored relative to the post they are in, e.g. a post with the
-    filename 2024-01-01-my-post.md would have images stored in
-    /assets/attachments/2024/01/01/my-post/
-  {% endcomment %}
-
-  {%
-    assign image_path = '/assets/attachments/'
-    | append: (page.date | date: '%Y/%m/%d')
-    | append: '/'
-    | append: page.slug
-    | append: '/'
-    | append: image_path
-  %}
+  {% assign image_path = image_path | post_asset_path | relative_url %}
 {% endif %}
 
 <div class="container position-relative popout-md px-0 py-1 py-md-3 py-lg-3 py-xl-5">
   <div class="row">
     <div class="col text-center">
-      <img src="/assets/attachments/{{ image_path }}" class="img-fluid" alt="{{ alt }}">
+      <img src="{{ image_path }}" class="img-fluid" alt="{{ alt }}">
       {% if caption %}
         <div class="caption py-3 small text-deemphasize">{{ caption }}</div>
       {% endif %}
