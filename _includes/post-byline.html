@@ -5,14 +5,14 @@
     {%- include avatar.html author=include.author size="3.2em" -%}
   </span>
   <span class="d-flex flex-column align-items-start justify-content-center">
-    <span itemprop="author" itemscope itemtype="http://schema.org/Person" class="d-flex align-items-center"
+    <span itemprop="author" itemscope itemtype="http://schema.org/Person"
       ><span class="p-author h-card" itemprop="name">
         {{- site.data.authors[include.author].name | default: include.author -}}
       </span>
       {%- if site.data.authors[include.author].pronouns -%}
         <span class="text-deemphasize small">
-          <span itemprop="pronouns"
-            >&nbsp; (
+          <span itemprop="pronouns" class="text-nowrap">
+            (
             {{- site.data.authors[include.author].pronouns -}}
             )</span
           >

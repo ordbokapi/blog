@@ -47,13 +47,17 @@ layout: default
       {% assign related_posts = site.related_posts | limit: 3 %}
       {%- for related_post in related_posts -%}
         {%- if related_post.url != page.url -%}
-          <a class="card text-dark bg-dark-card m-1" style="width: 18rem;" href="{{ related_post.url | relative_url }}">
+          <a
+            class="card text-dark bg-dark-card m-1 p-0"
+            style="width: 18rem;"
+            href="{{ related_post.url | relative_url }}"
+          >
             <img
               class="card-img-top"
               src="{{ related_post.image | post_asset_path | fallback_path: '/assets/img/card-image-placeholder.png' | relative_url }}"
               alt="Bilete for {{ related_post.title | escape }}"
             >
-            <div class="card-body">
+            <div class="card-body p-2">
               <h5 class="card-title">{{ related_post.title | escape }}</h5>
               <p class="card-text">{{ related_post.summary | escape }}</p>
               {%- include post-byline.html author=related_post.author date=related_post.date -%}
