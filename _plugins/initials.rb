@@ -2,6 +2,10 @@
 module Jekyll
   module InitialsFilter
     def initials(input)
+      if input.nil? || input.empty?
+        return input
+      end
+
       input.split(' ').map { |n| n[0] }.join.upcase
     end
   end

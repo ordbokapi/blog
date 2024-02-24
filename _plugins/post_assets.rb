@@ -23,12 +23,12 @@ module Jekyll
       end
       raise 'Could not find post' unless post
 
-      # For a published post
-      if post['published']
-        "/assets/attachments/#{post['date'].strftime('%Y/%m/%d')}/#{post['slug']}/"
-      else
-        # For a draft
+      # For a draft
+      if post['draft']
         "/assets/attachments/drafts/#{post['slug']}/"
+      else
+        # For a published post
+        "/assets/attachments/#{post['date'].strftime('%Y/%m/%d')}/#{post['slug']}/"
       end
     end
   end
@@ -49,10 +49,10 @@ module Jekyll
       raise 'Could not find post data' unless post
 
       # Determine the asset path based on whether the post is published or a draft
-      asset_path = if post['published']
-        "assets/attachments/#{post['date'].strftime('%Y/%m/%d')}/#{post['slug']}"
-      else
+      asset_path = if post['draft']
         "assets/attachments/drafts/#{post['slug']}"
+      else
+        "assets/attachments/#{post['date'].strftime('%Y/%m/%d')}/#{post['slug']}"
       end
 
       # Concatenate the asset path with the filename
