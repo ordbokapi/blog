@@ -117,6 +117,10 @@ task :notify_new_post do
 
   http = Net::HTTP.new(uri.host, uri.port)
 
+  if uri.scheme == 'https'
+    http.use_ssl = true
+  end
+
   request = Net::HTTP::Post.new(uri.request_uri)
   request['Authorization'] = api_key
   request['Content-Type'] = 'application/json'
