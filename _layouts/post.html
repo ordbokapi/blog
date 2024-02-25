@@ -18,7 +18,7 @@ layout: default
   <div class="position-relative popout-lg-medium popout-xl-large px-0 py-1 py-md-3 py-lg-3 py-xl-5 text-center">
     <img
       class="u-featured img-fluid"
-      src="{{ page.image | post_asset_path | fallback_path: '/assets/img/card-image-placeholder.png' | relative_url }}"
+      src="{{ page.image | relative_url }}"
       alt=""
     >
   </div>
@@ -54,7 +54,7 @@ layout: default
           >
             <img
               class="card-img-top"
-              src="{{ related_post.image | post_asset_path | fallback_path: '/assets/img/card-image-placeholder.png' | relative_url }}"
+              src="{{ related_post.image | relative_url }}"
               alt="Bilete for {{ related_post.title | escape }}"
             >
             <div class="card-body p-2">

@@ -6,7 +6,7 @@
           <div class="d-none d-md-flex col-md-7 col-lg-6 col-xl-5">
             <a href="{{ post.url | relative_url }}">
               <img
-                src="{{ post.image | post_asset_path: post | fallback_path: '/assets/img/card-image-placeholder.png' | relative_url }}"
+                src="{{ post.image | relative_url }}"
                 class="rounded-start object-fit-cover w-100 h-100"
                 alt="{{ post.image_alt | default: 'Bilete for innlegget' }}"
               >
