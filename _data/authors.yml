@@ -1,7 +1,7 @@
 asimonian:
   name: Adaline Simonian
   pronouns: hen/ho
-  bio: Adaline er grunnleggjaren av Ordbok API-prosjektet. Hen er ein full-stack utviklar og har ein lidenskap for språk og teknologi.
+  bio: Adaline er grunnleggjaren av Ordbok API-prosjektet. Hen er ein fullstack-utviklar og har ein lidenskap for språk og teknologi.
   picture: '/assets/img/avatars/asimonian.jpg'
   social:
     - title: GitHub

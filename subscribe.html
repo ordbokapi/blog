@@ -2,11 +2,13 @@
 permalink: /subscribe/index.html
 layout: default
 ---
+
 <h1 class="text-center">Abonner på bloggoppdateringar</h1>
 
 <p class="text-center lead my-5">
-  Viss du vil abonnera på bloggoppdateringar, skriv du inn e-postadressa di her og klikkar på "Abonner". Du vil få eit
-  e-postvarsel når nye innlegg blir publiserte.
+  Viss du vil abonnere på bloggoppdateringar, skriv du inn e-postadressa di her
+  og trykkjer på «Abonner». Du vil få eit e-postvarsel når nye innlegg vert
+  publiserte.
 </p>
 
 <div class="d-flex justify-content-center flex-column align-items-center">
@@ -24,10 +26,15 @@ layout: default
       required
       maxlength="100"
       class="form-control"
-    >
+    />
     <button type="submit" class="btn btn-outline-primary">Abonner</button>
   </form>
-  <div class="spinner-border text-primary m-5" role="status" id="subscribe-spinner" style="display: none;">
+  <div
+    class="spinner-border text-primary m-5"
+    role="status"
+    id="subscribe-spinner"
+    style="display: none"
+  >
     <span class="visually-hidden">Lastar...</span>
   </div>
 </div>
@@ -35,56 +42,73 @@ layout: default
 <div id="subscribe-message" class="text-center my-5"></div>
 
 <div class="text-center mt-5 mb-3">
-  <div class="border-bottom border-2 border-secondary w-25 d-inline-block"></div>
+  <div
+    class="border-bottom border-2 border-secondary w-25 d-inline-block"
+  ></div>
   <img
     src="{{ '/assets/img/privacy-icon.png' | relative_url }}"
     alt="Eit ikon av eit skjold med ein hengjelås på"
     class="img-fluid mx-5"
-    style="max-width: 4em;"
-  >
-  <div class="border-bottom border-2 border-secondary w-25 d-inline-block"></div>
+    style="max-width: 4em"
+  />
+  <div
+    class="border-bottom border-2 border-secondary w-25 d-inline-block"
+  ></div>
 </div>
 
 <p class="text-center">
-  Me tek personvernet ditt på alvor. Me sporar ingenting om deg, og ingen informasjon om deg blir delt med andre. Me
-  bruker berre e-postadressa di til å senda deg oppdateringsmeldingar — og det er alt.
+  Me tek personvernet ditt på alvor. Me sporar ingenting om deg, og ingen
+  informasjon om deg vert delt med andre. Me brukar berre e-postadressa di til å
+  sende deg oppdateringsmeldingar — og det er alt.
 </p>
 
 <p class="text-center">
-  Du kan når som helst avslutta abonnementet ved å klikka på avmeldingslenkja i e-postane du får. E-postadressene blir
-  lagra i ein kryptert database, og me slettar dei med ein gong når du avsluttar abonnementet. Alle loggar blir
+  Du kan når som helst avslutte abonnementet ved å trykkje på avmeldingslenkja i
+  e-postane du får. E-postadressene vert lagra i ein kryptert database, og me
+  slettar dei med ein gong når du avsluttar abonnementet. Alle loggar vert
   automatisk sletta etter 30 dagar.
 </p>
 
 <p class="text-center">
-  E-post blir sendt med <a href="https://github.com/ordbokapi/mailer">ein eigen og open-kjeldekode server</a> som me har
-  kontroll over, og me bruker <a href="https://proton.me/legal/privacy">ProtonMail</a> som e-postleverandør.
+  E-post vert sendt med
+  <a href="https://github.com/ordbokapi/mailer"
+    >vår eigen sørvar med open kjeldekode</a
+  >
+  som me har kontroll over, og me brukar
+  <a href="https://proton.me/legal/privacy">ProtonMail</a> som e-postleverandør.
   <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare</a>
-  blir brukt for å beskytta mot DDoS-angrep og for å betra ytelsen til nettstaden. Me har ingen tilknyting til andre
-  tredjepartier som kan få tilgang til e-postadressene dine.
+  vert brukt for å beskytte mot DDoS-angrep og for å betre ytinga til
+  nettstaden. Me har ingen tilknyting til andre tredjepartar som kan få tilgang
+  til e-postadressene dine.
 </p>
 
 <script>
-  document.getElementById('subscribe-form').addEventListener('submit', async function (event) {
-    event.preventDefault();
+  document
+    .getElementById("subscribe-form")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
 
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('subscribe-message');
-    const spinner = document.getElementById('subscribe-spinner');
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("subscribe-message");
+      const spinner = document.getElementById("subscribe-spinner");
 
-    message.innerHTML = '';
-    spinner.style.display = 'block';
+      message.innerHTML = "";
+      spinner.style.display = "block";
 
-    const response = await fetch(`{{ site.data.api.baseUrl }}/subscribe?email=${email}`);
+      const response = await fetch(
+        `{{ site.data.api.baseUrl }}/subscribe?email=${email}`
+      );
 
-    spinner.style.display = 'none';
+      spinner.style.display = "none";
 
-    if (response.status === 200) {
-      message.innerHTML = 'Takk for at du abonnerer! Sjekk e-posten din for ei stadfestingslenkje.';
-    } else if (response.status === 429) {
-      message.innerHTML = 'Du har vore for rask. Vennlegst prøv igjen om ei stund.';
-    } else {
-      message.innerHTML = 'Noko gjekk gale. Vennlegst prøv igjen.';
-    }
-  });
+      if (response.status === 200) {
+        message.innerHTML =
+          "Takk for at du abonnerer! Sjekk e-posten din for ei stadfestingslenkje.";
+      } else if (response.status === 429) {
+        message.innerHTML =
+          "Du har vore for rask. Ver venleg og prøv att om ei stund.";
+      } else {
+        message.innerHTML = "Noko gjekk gale. Ver venleg og prøv att.";
+      }
+    });
 </script>

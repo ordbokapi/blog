@@ -2,13 +2,23 @@
 permalink: /verify/index.html
 layout: default
 ---
+
 <h1 class="text-center">Stadfest abonnement</h1>
 
-<p id="instructions" class="text-center">Klikk på lenkja under for å stadfesta abonnementet ditt.</p>
+<p id="instructions" class="text-center">
+  Klikk på lenkja under for å stadfeste abonnementet ditt.
+</p>
 
 <div class="d-flex justify-content-center">
-  <a id="verify-button" class="btn btn-outline-primary" href="">Stadfest abonnement</a>
-  <div class="spinner-border text-primary m-5" role="status" id="verify-spinner" style="display: none;">
+  <a id="verify-button" class="btn btn-outline-primary" href=""
+    >Stadfest abonnement</a
+  >
+  <div
+    class="spinner-border text-primary m-5"
+    role="status"
+    id="verify-spinner"
+    style="display: none"
+  >
     <span class="visually-hidden">Lastar...</span>
   </div>
 </div>
@@ -16,21 +26,21 @@ layout: default
 <div id="verify-message" class="text-center mt-3"></div>
 
 <script>
-  const instructions = document.getElementById('instructions');
-  const verifyButton = document.getElementById('verify-button');
-  const message = document.getElementById('verify-message');
-  const spinner = document.getElementById('verify-spinner');
+  const instructions = document.getElementById("instructions");
+  const verifyButton = document.getElementById("verify-button");
+  const message = document.getElementById("verify-message");
+  const spinner = document.getElementById("verify-spinner");
 
   let ran = false;
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const token = new URLSearchParams(window.location.search).get('token');
+  document.addEventListener("DOMContentLoaded", () => {
+    const token = new URLSearchParams(window.location.search).get("token");
 
     verifyButton.href = `{{ site.data.api.baseUrl }}/verify?token=${token}`;
     verifyButton.click();
   });
 
-  verifyButton.addEventListener('click', async (event) => {
+  verifyButton.addEventListener("click", async (event) => {
     event.preventDefault();
 
     if (ran || !verifyButton.href) {
@@ -39,23 +49,26 @@ layout: default
 
     ran = true;
 
-    message.innerHTML = '';
-    spinner.style.display = 'block';
-    instructions.style.display = 'none';
-    verifyButton.style.display = 'none';
+    message.innerHTML = "";
+    spinner.style.display = "block";
+    instructions.style.display = "none";
+    verifyButton.style.display = "none";
 
     const response = await fetch(verifyButton.href);
 
-    spinner.style.display = 'none';
+    spinner.style.display = "none";
 
     if (response.status === 200) {
-      message.innerHTML = 'Abonnementet ditt er stadfesta. Du vil motta ein e-post når nytt innlegg blir publisert.';
+      message.innerHTML =
+        "Abonnementet ditt er stadfesta. Du vil mottaka ein e-post når nye innlegg vert publiserte.";
     } else if (response.status === 429) {
-      message.innerHTML = 'Du har vore for rask. Vennlegst prøv igjen om ei stund.';
+      message.innerHTML =
+        "Du har vore for rask. Ver venleg og prøv att om ei stund.";
     } else if (response.status === 404) {
-      message.innerHTML = 'Stadfestingslenkja er ugyldig. Har du allereie stadfesta abonnementet ditt?';
+      message.innerHTML =
+        "Stadfestingslenkja er ugyldig. Har du allereie stadfesta abonnementet ditt?";
     } else {
-      message.innerHTML = 'Noko gjekk gale. Vennlegst prøv igjen.';
+      message.innerHTML = "Noko gjekk gale. Ver venleg og prøv att.";
     }
   });
 </script>
