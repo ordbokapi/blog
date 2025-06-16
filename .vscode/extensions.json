@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "Shopify.ruby-lsp",
     "esbenp.prettier-vscode",
     "EditorConfig.EditorConfig",
     "Shopify.theme-check-vscode"

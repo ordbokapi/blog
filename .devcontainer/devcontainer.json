@@ -1,0 +1,36 @@
+{
+  "name": "Ordbok API Blogg",
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": ".."
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/devcontainer/blogg,type=bind",
+  "workspaceFolder": "/home/devcontainer/blogg",
+  "postStartCommand": "./.devcontainer/scripts/start.sh",
+  "forwardPorts": [
+    4000, // jekyll server
+    35729 // livereload
+  ],
+  "remoteUser": "devcontainer",
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/devcontainer/.ssh,type=bind,readonly"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        }
+      },
+      "extensions": [
+        "Shopify.ruby-lsp",
+        "esbenp.prettier-vscode",
+        "EditorConfig.EditorConfig",
+        "Shopify.theme-check-vscode"
+      ]
+    }
+  }
+}
